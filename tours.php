@@ -59,7 +59,7 @@ function invalidUser() {
 	<form name="form1" id="form1" action="searchresults.php" method="get">
 <div style="display: flex; align-items:stretch;">
 		<input style="background-color: antiquewhite; width: 140; margin-bottom: 4px; margin-top: 8px; margin-left: 12px;" name="search" id="search" type="text" maxlength="20" 
-			   placeholder="Search for partial song" />
+			   placeholder="Search song/location" />
 		<a href="javascript:form1.submit();"><img style="margin-left: 5px; margin-top: 7px;" src="images/search.png" height="46" alt="Search"/></a>
 	<a href="show.php?show_id=<?php echo $row["id"] ?>"><img style="margin-left:10px; margin-top: 9px;" src="images/random.png" height="44" alt="Random"/></a>
 </div>
