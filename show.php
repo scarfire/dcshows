@@ -69,52 +69,10 @@
 	<hr/>
 
 	<?php
-	// Get show set list
-    $sql = "SELECT a.id, title, set_number FROM ds_set_lists a INNER JOIN ds_songs b
-    ON a.song_id = b.id INNER JOIN ds_shows c on a.show_id = c.id WHERE a.show_id = ? ORDER BY id";
-    $stmt = $db->prepare($sql);
-    $stmt->execute(array($_REQUEST["show_id"]));
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $set_number = 1;
-	echo "<div class='set-header'>1st Set</div>";
-	foreach ($rows as $row){
-		if ($row["set_number"] == $set_number) {
-		   // Set didn't change, just show song
-			echo "<div class='song-title'>" . $row["title"] . "<div/>";
-		}
-		else {
-			if ($row["set_number"] == "E") {
-				// Changing from 2nd or 3rd set to Encore
-				echo "<hr/><div class='set-header'>Encore</div>";
-				$set_number = $row["set_number"];
-				echo "<div class='song-title'>" . $row["title"] . "<div/>";
-			}
-			else if ($row["set_number"] == "2") {
-				// Changing from 1st to 2nd set
-				echo "<hr/><div class='set-header'>2nd Set</div>";
-				$set_number = $row["set_number"];
-				echo "<div class='song-title'>" . $row["title"] . "<div/>";
-			}
-			else {
-				// Changing from 2nd to 3rd set
-				echo "<hr/><div class='set-header'>3rd Set</div>";
-				$set_number = $row["set_number"];
-				echo "<div class='song-title'>" . $row["title"] . "<div/>";
-			}
-		}
-	}
-	
-	if ($notes != null) {
-		if ($_SESSION["userid"] != null) {
-			echo "<hr/><div class='set-header'>Notes</div>";
-			echo $notes . "<br/>";
-	    }
-	}
-
 	// VIDEO
     if ($_SESSION["userid"] != null) {
 	   ?>
-		<hr/><a href="videos.php?show_id=<?php echo $_REQUEST["show_id"] ?>"><img src="images/video.png" height="42" alt="Videos"/></a>
+		<a href="videos.php?show_id=<?php echo $_REQUEST["show_id"] ?>"><img src="images/video.png" height="42" alt="Videos"/></a>
 	   <?php
    }
 
@@ -158,15 +116,57 @@
 	}
 	if ($nextshowid != null) {
 	?>
-		<a href="show.php?show_id=<?php echo $nextshowid ?>"><img style="margin-left:16px;" src="images/next.png" height="44" alt="Next Show"/></a>
+		<a href="show.php?show_id=<?php echo $nextshowid ?>"><img style="margin-left:16px;" src="images/next.png" height="44" alt="Next Show"/></a><hr/>
 	<?php
 	}
-	   if ($_SESSION["userid"] != null) {
-		   ?>
-			<hr/>
-			<a style="color: maroon;" href="editshow.php?editing=Y&show_id=<?php echo $_REQUEST['show_id'] ?>">Edit Show</a>
-		   <?php
-	   }
+
+	// Get show set list
+    $sql = "SELECT a.id, title, set_number FROM ds_set_lists a INNER JOIN ds_songs b
+    ON a.song_id = b.id INNER JOIN ds_shows c on a.show_id = c.id WHERE a.show_id = ? ORDER BY id";
+    $stmt = $db->prepare($sql);
+    $stmt->execute(array($_REQUEST["show_id"]));
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $set_number = 1;
+	echo "<div class='set-header'>1st Set</div>";
+	foreach ($rows as $row){
+		if ($row["set_number"] == $set_number) {
+		   // Set didn't change, just show song
+			echo "<div class='song-title'>" . $row["title"] . "<div/>";
+		}
+		else {
+			if ($row["set_number"] == "E") {
+				// Changing from 2nd or 3rd set to Encore
+				echo "<hr/><div class='set-header'>Encore</div>";
+				$set_number = $row["set_number"];
+				echo "<div class='song-title'>" . $row["title"] . "<div/>";
+			}
+			else if ($row["set_number"] == "2") {
+				// Changing from 1st to 2nd set
+				echo "<hr/><div class='set-header'>2nd Set</div>";
+				$set_number = $row["set_number"];
+				echo "<div class='song-title'>" . $row["title"] . "<div/>";
+			}
+			else {
+				// Changing from 2nd to 3rd set
+				echo "<hr/><div class='set-header'>3rd Set</div>";
+				$set_number = $row["set_number"];
+				echo "<div class='song-title'>" . $row["title"] . "<div/>";
+			}
+		}
+	}
+	
+	if ($notes != null) {
+		if ($_SESSION["userid"] != null) {
+			echo "<hr/><div class='set-header'>Notes</div>";
+			echo $notes . "<br/>";
+	    }
+	}
+   if ($_SESSION["userid"] != null) {
+	   ?>
+		<hr/>
+		<a style="color: maroon;" href="editshow.php?editing=Y&show_id=<?php echo $_REQUEST['show_id'] ?>">Edit Show</a>
+	   <?php
+   }
 	?>
 	<br/>
 </body>
