@@ -22,6 +22,9 @@
     $stmt = $db->prepare($sql);
     $stmt->execute(array($search));
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($rows == null) {
+		echo "<br/>No matches found. Click Search Results to go back.";
+	}
     foreach ($rows as $row){
 	?>
 	<div class="tile">
